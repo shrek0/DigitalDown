@@ -178,7 +178,6 @@ if __name__ == '__main__':
 	
 	parser = argparse.ArgumentParser(description='Digital Whisper Downloader')
 	parser.add_argument("-d","--download", dest="Download", help="Digital Whisper ID for download, IDs range (Example: 10-20), all or last [default: last]", metavar="ID", default='last') 
-	#parser.add_argument("-a","--alert", dest="AlertMail", help="Send mail when new Digital Whisper is published", metavar="MAIL")
 	parser.add_argument("-f", "--format", dest="Format", help="Digital Whisper format: one PDF [default], or many PDFs", metavar='FORMAT',default="one")
 	parser.add_argument("-s", "--save", dest="SaveFormat", help="Save format [default: #filename.pdf]. Example: #id_#filename_#title_TEXT -> 4_DW4-1-HTTP-Fingerprints_HTTP Fingerprints_TEXT)", metavar='FORMAT',default="#filename.pdf")
 	parser.add_argument(dest="path", help="Save files path",default="./", nargs='?')
