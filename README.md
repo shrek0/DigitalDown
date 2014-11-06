@@ -1,7 +1,10 @@
 DigitalDown
 ===========
 
-[DigitalWhisper](http://www.digitalwhisper.co.il/) magazine  downloader.
+## Description
+***DigitalDown*** is easy [DigitalWhisper](http://www.digitalwhisper.co.il/)*** magazine  downloader.
+
+## Installation
 
 ## Examples:
   ```console
