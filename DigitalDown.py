@@ -11,6 +11,8 @@ import math
 # Author: MrBot,Shrek0
 # Version: 0.2
 #
+# The first version: http://www.hacking.org.il/showthread.php?t=4960
+#
 # Description: 
 #	download DigitalWhisper issues.
 #
