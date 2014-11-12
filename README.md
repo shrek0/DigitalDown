@@ -5,7 +5,6 @@ DigitalDown
 
 ## Description
 ***DigitalDown*** is easy and **unofficially** [DigitalWhisper](http://www.digitalwhisper.co.il/) magazine  downloader.
-## Installation
 
 ## Examples:
   ```console
