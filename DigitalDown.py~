@@ -261,7 +261,7 @@ def main(options):
 		for i in range(1, dw.last()):
 			dw.add_to_download(i)
 	else:
-		dw.add_to_download(int(options.Download))
+		dw.add_to_download(options.Download)
 		
 	# Now, download the files:
 	dw.download()
