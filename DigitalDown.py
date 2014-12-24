@@ -274,6 +274,7 @@ if __name__ == '__main__':
 	parser.add_argument("-d","--download", dest="Download", help="Digital Whisper ID for download, IDs range (Example: 10-20, 7-last), all or last [default: last]", metavar="ID", default='last') 
 	parser.add_argument("-f", "--format", dest="Format", help="Digital Whisper format: one PDF [default], or many PDFs", metavar='FORMAT',default="one")
 	parser.add_argument("-s", "--save", dest="SaveFormat", help="Save format [default: #filename.pdf]. Example: #id_#filename_#title_TEXT -> 4_DW4-1-HTTP-Fingerprints_HTTP Fingerprints_TEXT)", metavar='FORMAT',default="#filename.pdf")
+	parser.add_argument("-v", "--version", action='version', version=str(__VERSION__))
 	parser.add_argument(dest="path", help="Save files path",default="./", nargs='?')
 
 	args = parser.parse_args()
