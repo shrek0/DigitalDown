@@ -60,8 +60,7 @@ class DigitalWhisper(object):
 
 	## Global functions.
 	
-	# Public function, add id to download.
-	
+	# Public function, add id for download.
 	def add_to_download(self, id):
 		self.files += self.get_files_list(id)
 		
@@ -100,7 +99,6 @@ class DigitalWhisper(object):
 	
 	# Private function, return the required contents for the file save format.
 	# Used in get_format_save_name function,
-	
 	def get_required_contents(self):
 		contents = []
 		
@@ -142,6 +140,7 @@ class DigitalWhisper(object):
 	
 	## Title functions.
 	
+	# Private function, return title by id and idd.
 	def get_title(self, id, idd):
 		if self._titles_cache_id != id:
 			self._titles_cache_data = self.get_all_titles(id)
@@ -152,7 +151,8 @@ class DigitalWhisper(object):
 			return "Untitled %d|%d" % (id, idd)
 			
 		return self._titles_cache_data[idd]
-
+	
+	# Private function, return all titles of id.
 	def get_all_titles(self, id):
 		titles = []
 		
@@ -164,7 +164,7 @@ class DigitalWhisper(object):
 			if len(titles) < 2:
 					titles += self._lxml_cache_data.xpath("//td/font/a/text()")
 					titles += self._lxml_cache_data.xpath("//td/a/font/text()")
-			if len(titles) < 2: # Again :(
+			if len(titles) < 2:
 				titles += self._lxml_cache_data.xpath("//span/a/text()")
 		elif self._options.Format == 'one':
 			titles.append('Digital Whisper Full Issue %d' % id)
