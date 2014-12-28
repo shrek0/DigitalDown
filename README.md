@@ -4,7 +4,7 @@ DigitalDown
 ![Logo](http://www.digitalwhisper.co.il/logo.png)
 
 ## Description
-***DigitalDown*** is easy and **unofficiall** [DigitalWhisper](http://www.digitalwhisper.co.il/) magazine  downloader.
+***DigitalDown*** is easy and **unofficial** [DigitalWhisper](http://www.digitalwhisper.co.il/) magazine  downloader.
 
 ## Examples:
   ```console
