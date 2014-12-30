@@ -207,7 +207,7 @@ class DigitalWhisper(object):
 	
 	## Download pdf functions.
 	
-	# Private function, show repot about the download. Used in 'save' function.
+	# Private function, show reprot about the download. Used in 'save' function.
 	def report_hook(self,count,block_size,total_size):
 		percentage = (count * block_size)*100/total_size
 		stdout.write('\r%s %% : ' % padding(str(percentage), 3))
