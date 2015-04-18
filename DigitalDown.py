@@ -331,7 +331,7 @@ class DigitalWhisper(object):
      # Private function, show report about the download. Used in 'save' function.
      def _report_hook(self, count, block_size, total_size):
           x,y = getTerminalSize()
-          x = x-29
+          x = x-31
           
           out = "\r" # return to line begining.
                 
@@ -339,7 +339,7 @@ class DigitalWhisper(object):
           progress = percentage*x/100
           out += '%s %% : ' % padding(str(percentage), 3)
           
-          out += padding(progress * '#', x+1)
+          out += '[' + padding(progress * '#', x+1) + ']'
           
           count = size((count * block_size)/1024)
           count = '%s %s' % (padding(count[0], 4), padding(count[1], 2))
