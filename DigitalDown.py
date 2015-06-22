@@ -387,7 +387,7 @@ def main(options):
                dw.add_to_download(i)
                
      elif options.Download == 'all':
-          for i in xrange(1, dw.last()):
+          for i in range(1, dw.last()):
                dw.add_to_download(i)
      else:
           dw.add_to_download(int(options.Download))
