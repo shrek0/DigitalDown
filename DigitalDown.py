@@ -1,10 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-import urllib2, argparse
+import argparse
 from re import findall
 from sys import argv
-from urllib import urlretrieve
 from sys import stdout, exit
+from urllib.request import urlopen
+from urllib.request import urlretrieve
 import math
 
 # 
@@ -18,7 +20,6 @@ import math
 #
 
 __VERSION__ = 0.4
-
 
 """ getTerminalSize()
  - get width and height of console
@@ -43,7 +44,6 @@ def getTerminalSize():
    if current_os == 'Linux' or current_os == 'Darwin' or  current_os.startswith('CYGWIN'):
        tuple_xy = _getTerminalSize_linux()
    if tuple_xy is None:
-       print "default"
        tuple_xy = (80, 25)      # default value
    return tuple_xy
 
@@ -67,7 +67,6 @@ def getTerminalSize():
           tuple_xy = _getTerminalSize_linux()
           
      if tuple_xy is None:
-          print "default"
           tuple_xy = (80, 25)      # default value
        
      return tuple_xy
@@ -166,8 +165,9 @@ class DigitalWhisper(object):
                try:
                     from lxml.html import fromstring
                except ImportError:
-                    print "Error: lxml not installed."
-                    sys.exit(1)
+                    print("Error: lxml is not installed.")
+                    from sys import exit
+                    exit(1)
                global fromstring
           
           self._last_id_cache_data = -1
@@ -190,7 +190,7 @@ class DigitalWhisper(object):
                 
                for f in self.files:
                     path = self._options.path + '/' + f['save_name']
-                    print '(%d/%d) Downloading %s to %s:' % (counter, files_len, f['link'], path)
+                    print('(%d/%d) Downloading %s to %s:' % (counter, files_len, f['link'], path))
                     self._save(path, f['link'])
                     
                     counter+=1
@@ -254,7 +254,7 @@ class DigitalWhisper(object):
                self.titles_cache_id = id
           
           if len(self._titles_cache_data) <= idd: # if the titles length
-               print "Warning: links and titles length is not equal! may be a problem with the titles. id:%d" % (id)
+               print("Warning: links and titles length is not equal! may be a problem with the titles. id:%d" % (id))
                return "Untitled %d|%d" % (id, idd)
                
           return self._titles_cache_data[idd]
@@ -335,8 +335,8 @@ class DigitalWhisper(object):
           
           out = "\r" # return to line begining.
                 
-          percentage = (count * block_size)*100/total_size
-          progress = percentage*x/100
+          percentage = int((count * block_size)*100/total_size)
+          progress = int(percentage*x/100)
           out += '%s %% : ' % padding(str(percentage), 3)
           
           out += '[' + padding(progress * '#', x+1) + ']'
@@ -354,15 +354,15 @@ class DigitalWhisper(object):
           stdout.flush()
      
      def _save(self, path, url):
-               urlretrieve(url, path, self._report_hook)
+               urlretrieve(url, path.encode('utf8'), self._report_hook)
                print
                         
      ## Download html functions.
      
      # Private function, get response by url.
      def _request(self, url):
-          c = urllib2.urlopen(url)
-          data = c.read()
+          c = urlopen(url)
+          data = c.read().decode('utf8')
           c.close()
           return data
      
@@ -387,7 +387,7 @@ def main(options):
                dw.add_to_download(i)
                
      elif options.Download == 'all':
-          for i in range(1, dw.last()):
+          for i in xrange(1, dw.last()):
                dw.add_to_download(i)
      else:
           dw.add_to_download(int(options.Download))
