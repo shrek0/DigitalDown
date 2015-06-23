@@ -11,7 +11,7 @@ import math
 
 # 
 # Author: MrBot,Shrek0
-# Version: 0.4
+# Version: 0.5
 #
 # The first version: http://www.hacking.org.il/showthread.php?t=4960
 #
@@ -19,7 +19,7 @@ import math
 #     Download DigitalWhisper issues.
 #
 
-__VERSION__ = 0.4
+__VERSION__ = 0.5
 
 """ getTerminalSize()
  - get width and height of console
