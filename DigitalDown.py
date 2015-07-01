@@ -237,7 +237,7 @@ class DigitalWhisper(object):
                
                for xpath in xpaths:
                     links += self._lxml_cache_data.xpath(xpath+'/@href')
-                    if len(links) > 2:
+                    if len(links) > 3:
                          break
                          
           elif self._options.Format == 'one':
@@ -273,7 +273,7 @@ class DigitalWhisper(object):
 
                for xpath in xpaths:
                     titles += self._lxml_cache_data.xpath(xpath+'/text()')
-                    if len(titles) > 2:
+                    if len(titles) > 3:
                          break
                     
           elif self._options.Format == 'one':
