@@ -27,6 +27,7 @@ DigitalDown
 | The format | Description          |
 | ---------- |:--------------------:| 
 | #id        | The issue's ID       |
+| #idd       | The file's ID (of each issue) |
 | #filename  | The pdf's filename   |
 | #title     | The article's title  |
 
