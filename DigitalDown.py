@@ -339,7 +339,7 @@ class DigitalWhisper(object):
           progress = int(percentage*x/100)
           out += '%s %% : ' % padding(str(percentage), 3)
           
-          out += '[' + padding(progress * '#', x+1) + ']'
+          out += '[' + padding(progress * '#', x) + '] '
           
           count = size((count * block_size)/1024)
           count = '%s %s' % (padding(count[0], 4), padding(count[1], 2))
