@@ -35,7 +35,7 @@ DigitalDown
   ```console
   ./DigitalDown.py -f many # Set to download as a file per article.
   ```
-  'many' is for file per article and one is for one pdf file.  
+  'many' is for file per article 'and' one is for one pdf file.  
   
 ###  Set the download path:
   ```console
