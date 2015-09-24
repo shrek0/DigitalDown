@@ -32,22 +32,6 @@ __all__=['getTerminalSize']
 
 current_os = ''
 
-def getTerminalSize():
-   import platform
-   current_os = platform.system()
-   tuple_xy=None
-   if current_os == 'Windows':
-       tuple_xy = _getTerminalSize_windows()
-       if tuple_xy is None:
-          tuple_xy = _getTerminalSize_tput()
-          # needed for window's python in cygwin's xterm!
-   if current_os == 'Linux' or current_os == 'Darwin' or  current_os.startswith('CYGWIN'):
-       tuple_xy = _getTerminalSize_linux()
-   if tuple_xy is None:
-       tuple_xy = (80, 25)      # default value
-   return tuple_xy
-
-
 def getTerminalSize():     
      global current_os
      
