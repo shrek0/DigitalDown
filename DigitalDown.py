@@ -7,6 +7,7 @@ from sys import argv
 from sys import stdout, exit
 from urllib.request import urlopen
 from urllib.request import urlretrieve
+from TerminalSize import getTerminalSize
 import math
 
 # 
@@ -20,103 +21,6 @@ import math
 #
 
 __VERSION__ = 0.5
-
-""" getTerminalSize()
- - get width and height of console
- - works on linux,os x,windows,cygwin(windows)
- 
- src: https://stackoverflow.com/questions/566746/how-to-get-console-window-width-in-python.
-"""
-
-__all__=['getTerminalSize']
-
-current_os = ''
-
-def getTerminalSize():     
-     global current_os
-     
-     if(current_os == ''):
-          import platform
-          current_os = platform.system()
-          
-     tuple_xy=None
-     
-     if current_os == 'Windows':
-          tuple_xy = _getTerminalSize_windows()
-
-          if tuple_xy is None:
-               tuple_xy = _getTerminalSize_tput()  # needed for window's python in cygwin's xterm!
-          
-     if current_os == 'Linux' or current_os == 'Darwin' or  current_os.startswith('CYGWIN'):
-          tuple_xy = _getTerminalSize_linux()
-          
-     if tuple_xy is None:
-          tuple_xy = (80, 25)      # default value
-       
-     return tuple_xy
-
-def _getTerminalSize_windows():
-    res=None
-    try:
-        from ctypes import windll, create_string_buffer
-
-        # stdin handle is -10
-        # stdout handle is -11
-        # stderr handle is -12
-
-        h = windll.kernel32.GetStdHandle(-12)
-        csbi = create_string_buffer(22)
-        res = windll.kernel32.GetConsoleScreenBufferInfo(h, csbi)
-    except:
-        return None
-    if res:
-        import struct
-        (bufx, bufy, curx, cury, wattr,
-         left, top, right, bottom, maxx, maxy) = struct.unpack("hhhhHhhhhhh", csbi.raw)
-        sizex = right - left + 1
-        sizey = bottom - top + 1
-        return sizex, sizey
-    else:
-        return None
-
-def _getTerminalSize_tput():
-    # get terminal width
-    # src: http://stackoverflow.com/questions/263890/how-do-i-find-the-width-height-of-a-terminal-window
-    try:
-       import subprocess
-       proc=subprocess.Popen(["tput", "cols"],stdin=subprocess.PIPE,stdout=subprocess.PIPE)
-       output=proc.communicate(input=None)
-       cols=int(output[0])
-       proc=subprocess.Popen(["tput", "lines"],stdin=subprocess.PIPE,stdout=subprocess.PIPE)
-       output=proc.communicate(input=None)
-       rows=int(output[0])
-       return (cols,rows)
-    except:
-       return None
-
-
-def _getTerminalSize_linux():
-    def ioctl_GWINSZ(fd):
-        try:
-            import fcntl, termios, struct, os
-            cr = struct.unpack('hh', fcntl.ioctl(fd, termios.TIOCGWINSZ,'1234'))
-        except:
-            return None
-        return cr
-    cr = ioctl_GWINSZ(0) or ioctl_GWINSZ(1) or ioctl_GWINSZ(2)
-    if not cr:
-        try:
-            fd = os.open(os.ctermid(), os.O_RDONLY)
-            cr = ioctl_GWINSZ(fd)
-            os.close(fd)
-        except:
-            pass
-    if not cr:
-        try:
-            cr = (env['LINES'], env['COLUMNS'])
-        except:
-            return None
-    return int(cr[1]), int(cr[0])
 
 # src: "https://stackoverflow.com/questions/5194057/better-way-to-convert-file-sizes-in-python" with some changes
 def size(size):
@@ -142,7 +46,7 @@ class DigitalWhisper(object):
           self._html_cache_data = ''
           self._html_cache_id = 0
           
-          if self._options.Format == 'many':
+          if self._options.Format == 'article':
                self._lxml_cache_data = ''
                self._lxml_cache_id = 0
 
@@ -206,7 +110,7 @@ class DigitalWhisper(object):
      def _get_all_links(self, id):
           links = []
           
-          if self._options.Format == 'many':
+          if self._options.Format == 'article':
                if self._lxml_cache_id != id:
                     self._download_html(id)
                     
@@ -224,7 +128,7 @@ class DigitalWhisper(object):
                     if len(links) > 3:
                          break
                          
-          elif self._options.Format == 'one':
+          elif self._options.Format == 'issue':
                links.append('http://www.digitalwhisper.co.il/files/Zines/0x%02X/DigitalWhisper%d.pdf' % (id, id))
           
           return links
@@ -247,7 +151,7 @@ class DigitalWhisper(object):
      def _get_all_titles(self, id):
           titles = []
           
-          if self._options.Format == 'many':
+          if self._options.Format == 'article':
                # No need to check the cache again, get_all_links method was called before and did those things. 
               
                xpaths = ['//tbody/tr/td/a',
@@ -260,7 +164,7 @@ class DigitalWhisper(object):
                     if len(titles) > 3:
                          break
                     
-          elif self._options.Format == 'one':
+          elif self._options.Format == 'issue':
                titles.append('Digital Whisper Full Issue %d' % id)
           
           return titles
@@ -384,11 +288,11 @@ def main(options):
 if __name__ == '__main__':
      
      parser = argparse.ArgumentParser(description='Digital Whisper Downloader')
-     parser.add_argument("-d","--download", dest="Download", help="Digital Whisper ID for download, IDs range (Example: 10-20, 7-last), all or last [default: last]", metavar="ID", default='last') 
-     parser.add_argument("-f", "--format", dest="Format", help="Digital Whisper format: one PDF [default], or many PDFs", metavar='FORMAT',default="one")
+     parser.add_argument("-d","--download", dest="Download", help="Digital Whisper ID for download, IDs range (Example: 10-20, 7-last), 'all' or 'last' [default: last]", metavar="ID", default='last') 
+     parser.add_argument("-f", "--format", dest="Format", help="Download format: download a PDF file for each article or for a magazine issue", metavar='FORMAT',default="issue")
      parser.add_argument("-s", "--save", dest="SaveFormat", help="Save format [default: #filename.pdf]. Example: #id_#filename_#title_TEXT -> 4_DW4-1-HTTP-Fingerprints_HTTP Fingerprints_TEXT)", metavar='FORMAT',default="#filename.pdf")
      parser.add_argument("-v", "--version", action='version', version=str(__VERSION__))
-     parser.add_argument(dest="path", help="Save files path",default="./", nargs='?')
+     parser.add_argument(dest="path", help="Download path",default="./", nargs='?')
 
      args = parser.parse_args()
      

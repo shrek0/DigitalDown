@@ -33,13 +33,13 @@ DigitalDown
 
 ### Set download the issue as a one pdf file or as a file per article:
   ```console
-  ./DigitalDown.py -f many # Set to download as a file per article.
+  ./DigitalDown.py -f article # Set to download as a file per article.
   ```
-  'many' is for file per article 'and' one is for one pdf file.  
+  'article' will download a PDF file for each article in the issue and 'issue' will download only one PDF file for all the articles.  
   
 ###  Set the download path:
   ```console
-  ./DigitalDown.py /usr/bin/.folder/../../../home/../etc/passwd # Set the dowload path to /etc/passwd :smile:
+  ./DigitalDown.py /usr/bin/../../home/../etc/passwd # Set the dowload path to /etc/passwd :smile:
   ```
   
   Enjoy!
